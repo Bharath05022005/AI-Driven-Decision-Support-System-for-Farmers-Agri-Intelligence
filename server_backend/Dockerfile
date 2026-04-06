@@ -20,3 +20,4 @@ COPY . .
 
 CMD ["gunicorn", "--workers", "1", "--threads", "2", "--timeout", "120", "-b", "0.0.0.0:5000", "app:app"]
 # force rebuild
+# rebuild trigger
