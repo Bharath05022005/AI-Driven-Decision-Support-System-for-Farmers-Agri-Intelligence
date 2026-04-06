@@ -4,7 +4,6 @@ services:
     name: agri-backend
     runtime: docker
     dockerContext: ./server_backend
-    dockerfilePath: ./server_backend/Dockerfile
     plan: free
     envVars:
       - key: MONGODB_CONNECTION_STRING
@@ -24,7 +23,6 @@ services:
     name: agri-frontend
     runtime: docker
     dockerContext: ./client_frontend
-    dockerfilePath: ./client_frontend/Dockerfile
     plan: free
     envVars:
       - key: VITE_API_URL
