@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: agri-backend
+    runtime: docker
+    dockerContext: ./server_backend
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: MONGODB_CONNECTION_STRING
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: HF_TOKEN
+        sync: false
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+    dockerBuildArgs:
+      - key: HF_TOKEN
+        value: $HF_TOKEN

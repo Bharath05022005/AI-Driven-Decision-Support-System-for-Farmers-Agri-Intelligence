@@ -1,0 +1,17 @@
+[33m0a3a19f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m update
+[33m63a9ae2[m fix: force torch 2.6+ from PyPI and use safetensors to bypass CVE-2025-32434
+[33ma9fcf8e[m fix: remove torch version pin, use latest cpu torch
+[33md67b104[m fix: upgrade torch to 2.6.0 for CVE-2025-32434 fix
+[33mc073892[m update
+[33m89e4fb3[m[33m ([m[1;31morigin/main[m[33m)[m fix: install torch explicitly before transformers, fix HF_TOKEN build arg
+[33me238146[m fix: add detailed logging to find exact download error
+[33m0a321af[m fix: separate model download script to fix dockerfile parse error
+[33mf55ad8e[m fix: correct HF_TOKEN env variable expansion in Dockerfile
+[33m44a39d8[m  update
+[33m460bfcd[m  update
+[33m1d6d61d[m update gemini-2.5-flash-lite
+[33m6415ea8[m modify
+[33m3022d1c[m  Update
+[33m323ab33[m  Update
+[33m49f0ee5[m new files
+[33m8bd944d[m first commit
