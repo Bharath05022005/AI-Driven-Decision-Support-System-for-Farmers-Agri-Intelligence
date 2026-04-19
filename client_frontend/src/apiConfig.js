@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// REPLACE THIS URL with the "Forwarding" link from 'ngrok http 5000'
-const API_BASE_URL = 'https://your-backend-id.ngrok-free.app'; 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 axios.defaults.baseURL = API_BASE_URL;
 axios.defaults.withCredentials = true;
