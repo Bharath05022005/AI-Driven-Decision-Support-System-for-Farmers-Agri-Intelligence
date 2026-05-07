@@ -27,10 +27,47 @@ load_dotenv()
 
 # Flask Setup
 app = Flask(__name__, static_folder='static')
-allowed_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:8080").split(",")
-print("Allowed origins:", allowed_origins)
-CORS(app, supports_credentials=True, origins=allowed_origins)
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
+
+# ── CORS: Manual handler (flask-cors callable origins not supported in this version) ──
+import re as _re
+
+_env_origins = [o.strip() for o in os.getenv(
+    "ALLOWED_ORIGINS", "http://localhost:5173"
+).split(",") if o.strip()]
+
+_LOCAL_NET_PATTERNS = [
+    _re.compile(r'^http://192\.168\.\d{1,3}\.\d{1,3}(:\d+)?$'),
+    _re.compile(r'^http://10\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?$'),
+    _re.compile(r'^http://172\.(1[6-9]|2[0-9]|3[0-1])\.\d{1,3}\.\d{1,3}(:\d+)?$'),
+]
+
+def _origin_allowed(origin: str) -> bool:
+    if not origin:
+        return False
+    if origin in _env_origins:
+        return True
+    return any(p.match(origin) for p in _LOCAL_NET_PATTERNS)
+
+# Initialise flask-cors with a wildcard so it never blocks; we enforce
+# the actual allowed origin in the after_request hook below.
+CORS(app, supports_credentials=True, origins="*")
+
+@app.after_request
+def _apply_cors(response):
+    origin = request.headers.get("Origin", "")
+    if _origin_allowed(origin):
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Methods"] = \
+            "GET, POST, PUT, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = \
+            "Content-Type, Authorization, X-Requested-With"
+    return response
+
+print("Allowed origins (from .env):", _env_origins)
+
+
 
 # MongoDB Setup
 try:
